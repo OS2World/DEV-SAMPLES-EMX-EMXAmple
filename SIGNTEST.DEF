@@ -1,0 +1,3 @@
+NAME signtest WINDOWCOMPAT
+DESCRIPTION 'sign class sample program'
+STACKSIZE 0x10000

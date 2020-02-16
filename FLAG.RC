@@ -1,0 +1,49 @@
+/* flag.rc */
+
+#include "flag.ih"
+
+POINTER ID_ICON LOADONCALL MOVEABLE DISCARDABLE flag.ico
+
+DLGTEMPLATE IDD_FLAG LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG  "Flag", IDD_FLAG, 11, 17, 190, 134, NOT FS_DLGBORDER | WS_VISIBLE
+    BEGIN
+        GROUPBOX   "Type"                          -1,   4,  96, 156, 34
+        LTEXT      "~Stripes",                     -1,   8, 102,  32, 8, DT_MNEMONIC
+        SPINBUTTON                        IDC_STRIPES,  40, 102,  32, 12, SPBS_MASTER | SPBS_NUMERICONLY | SPBS_JUSTRIGHT | WS_GROUP | WS_TABSTOP
+        AUTORADIOBUTTON "~Horizontal", IDC_HORIZONTAL,  90, 112,  62, 12, WS_GROUP | WS_TABSTOP
+        AUTORADIOBUTTON "~Vertical",     IDC_VERTICAL,  90, 100,  62, 12
+        GROUPBOX   "Colors"                        -1,   4,  24, 156, 66
+        LTEXT      "Red",                          -1,   8,  60,  32, 8
+        LTEXT      "Green",                        -1,   8,  44,  32, 8
+        LTEXT      "Blue",                         -1,   8,  28,  32, 8
+        CTEXT      "1",                            -1,  40,  72,  32, 8
+        CTEXT      "2",                            -1,  80,  72,  32, 8
+        CTEXT      "3",                            -1, 120,  72,  32, 8
+        SPINBUTTON                     IDC_COLOR1_RED,  40,  60,  32, 12, SPBS_MASTER | SPBS_NUMERICONLY | SPBS_JUSTRIGHT | SPBS_FASTSPIN | WS_GROUP
+        SPINBUTTON                   IDC_COLOR1_GREEN,  40,  44,  32, 12, SPBS_MASTER | SPBS_NUMERICONLY | SPBS_JUSTRIGHT | SPBS_FASTSPIN
+        SPINBUTTON                    IDC_COLOR1_BLUE,  40,  28,  32, 12, SPBS_MASTER | SPBS_NUMERICONLY | SPBS_JUSTRIGHT | SPBS_FASTSPIN
+        SPINBUTTON                     IDC_COLOR2_RED,  80,  60,  32, 12, SPBS_MASTER | SPBS_NUMERICONLY | SPBS_JUSTRIGHT | SPBS_FASTSPIN | WS_GROUP
+        SPINBUTTON                   IDC_COLOR2_GREEN,  80,  44,  32, 12, SPBS_MASTER | SPBS_NUMERICONLY | SPBS_JUSTRIGHT | SPBS_FASTSPIN
+        SPINBUTTON                    IDC_COLOR2_BLUE,  80,  28,  32, 12, SPBS_MASTER | SPBS_NUMERICONLY | SPBS_JUSTRIGHT | SPBS_FASTSPIN
+        SPINBUTTON                     IDC_COLOR3_RED, 120,  60,  32, 12, SPBS_MASTER | SPBS_NUMERICONLY | SPBS_JUSTRIGHT | SPBS_FASTSPIN | WS_GROUP
+        SPINBUTTON                   IDC_COLOR3_GREEN, 120,  44,  32, 12, SPBS_MASTER | SPBS_NUMERICONLY | SPBS_JUSTRIGHT | SPBS_FASTSPIN
+        SPINBUTTON                    IDC_COLOR3_BLUE, 120,  28,  32, 12, SPBS_MASTER | SPBS_NUMERICONLY | SPBS_JUSTRIGHT | SPBS_FASTSPIN
+        PUSHBUTTON "~Undo",                  IDC_UNDO,   5,   4,  40, 14
+        PUSHBUTTON "~Default",            IDC_DEFAULT,  51,   4,  40, 14
+        CONTROL    "Help",                   IDC_HELP,  97,   4,  40, 14, WC_BUTTON, BS_PUSHBUTTON | BS_HELP | BS_NOPOINTERFOCUS | WS_TABSTOP | WS_VISIBLE
+    END
+END
+
+
+MENU IDM_OPENFLAG LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+   MENUITEM "~Flag", IDM_OPENFLAG
+END
+
+
+/*
+ * Local variables:
+ * truncate-lines: t
+ * end:
+ */

@@ -1,0 +1,19 @@
+/* pm1.rc */
+
+#include <os2.h>
+#include "pm1.h"
+
+ICON ID_PM1 pm1.ico
+
+MENU ID_PM1
+BEGIN
+    SUBMENU "~File", IDM_FILE
+    BEGIN
+        MENUITEM "E~xit\tF3",              IDM_EXIT
+    END
+END
+
+ACCELTABLE ID_PM1
+BEGIN
+  VK_F3,  IDM_EXIT,      VIRTUALKEY
+END

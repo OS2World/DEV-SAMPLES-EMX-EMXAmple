@@ -1,0 +1,15 @@
+;
+; regexx.def
+;
+LIBRARY REGEXX INITINSTANCE
+DESCRIPTION 'regexx -- regular expressions for REXX'
+DATA
+   MULTIPLE NONSHARED
+EXPORTS
+  REGEXXLOADFUNCS    = regexx_loadfuncs
+  REGEXXSTART        = regexx_start
+  REGEXXEND          = regexx_end
+  REGEXXSUBSTR       = regexx_substr
+  REGEXXREPLACEMATCH = regexx_replacematch
+  REGEXXREPLACEFIRST = regexx_replacefirst
+  REGEXXREPLACEALL   = regexx_replaceall

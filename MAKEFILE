@@ -1,0 +1,157 @@
+#
+# /emx/samples/makefile
+#
+CFLAGS=-g -Wall
+CC=gcc $(CFLAGS)
+
+.SUFFIXES: .c .m .exe
+
+.c.exe:
+	$(CC) $<
+
+.m.exe:
+	$(CC) $< -lobjc
+
+default:        c-samples
+
+all:            c-samples cpp-samples objc-samples os2-samples
+
+c-samples:      calc.exe graph.exe eatool.exe redir.exe rmdirs.exe \
+		sieve.exe sort.exe which.exe wm_demo.exe wm_hello.exe
+
+cpp-samples:    sign
+
+objc-samples:   objcsamp.exe
+
+os2-samples:    pm1.exe regexx.dll
+
+sign:           sign.dll signtest.exe
+
+wps:            flag
+flag:           flag.dll
+
+clean:
+	-del *.exe
+	-del *.dll
+	-del *.lib
+	-del *.o
+	-del *.obj
+	-del *.res
+	-del sign.def
+	-del flag.cs2
+	-del flag.def
+	-del flag.h
+	-del flag.ih
+	-del flag.ph
+	-del flag.psc
+	-del flag.res
+	-del flag.sc
+
+calc.exe:       calc.c
+eatool.exe:     eatool.c
+objcsamp.exe:   objcsamp.m
+sieve.exe:      sieve.c
+sort.exe:       sort.c
+which.exe:      which.c
+
+graph.exe:      graph.c graph.def
+	$(CC) graph.c graph.def -lgraph
+	emxbind -aq graph -acim
+
+redir.exe:      redir.c
+	$(CC) redir.c
+	emxbind -aq redir -p
+
+rmdirs.exe:     rmdirs.c
+
+wm_demo.exe:    wm_demo.c
+	$(CC) wm_demo.c -lvideo
+	emxbind -aq wm_demo -acm
+
+wm_hello.exe:   wm_hello.c
+	$(CC) wm_hello.c -lvideo
+	emxbind -aq wm_hello -acm
+
+#
+# pm1 (small Presentation Manager sample)
+#
+pm1.obj:        pm1.c pm1.h
+	gcc -c -Zomf -Wall pm1.c
+
+pm1.res:        pm1.rc pm1.h
+	rc -r -i \emx\include pm1.rc
+
+pm1.exe:        pm1.obj pm1.def pm1.res
+	gcc -Zomf -Zsys -s pm1.obj pm1.def pm1.res
+
+#
+# regexx.dll (DLL, REXX, and regexp sample)
+#
+regexx.dll: regexx.c regexx.def
+	gcc -Zdll -Zomf -Zso -Zsys -s -O regexx.c regexx.def -lregexp
+
+#
+# sign (C++ DLL sample)
+#
+sign.obj:       sign.cc sign.h
+	$(CC) -c sign.cc -Zdll -Zomf -Zcrtdll
+
+sign.def: sign.df sign.obj
+	copy sign.df sign.def
+	emxexp sign.obj >>sign.def
+
+sign.dll: sign.obj sign.def
+	$(CC) -o sign.dll sign.obj sign.def -Zdll -Zomf -Zcrtdll
+
+sign.lib: sign.def
+	emximp -o sign.lib sign.def
+
+signtest.exe: signtest.cc sign.lib signtest.def
+	$(CC) signtest.cc sign.lib signtest.def -liostream -Zomf -Zcrtdll
+
+#
+# Flag (Workplace Shell sample)
+#
+############################################################
+# The IBM Programmer's Toolkit for OS/2 2.1 is required!!! #
+############################################################
+#
+# Building and installing the Flag sample:
+#
+# 1. Include the path name of the Toolkit headers in the INCLUDE,
+#    SMINCLUDE and C_INCLUDE_PATH environment variables
+#
+# 2. Type "SET SMEMIT=H;IH;PH;PSC;CS2;DEF" to tell SC what files to
+#    emit
+#
+# 3. Type "dmake flag" to build flag.dll
+#
+# 4. Type "flag install" to register the Flag class of flag.dll
+#
+# 5. Type "flag create FlagTest" to create a Flag object named FlagTest
+#    on the desktop
+#
+# Removing the Flag class:
+#
+# 1. Delete all Flag objects
+#
+# 2. Type "flag uninstall" to deregister the Flag class
+#
+# 3. Reboot to unload flag.dll.  You don't need this step unless you want
+#    to overwrite or delete flag.dll
+#
+CFLAGS_FLAG=-Zdll -Zomf -Zno-rte -Zc++-comments
+flag.ih: flag.csc
+	sc -r flag.csc
+
+flag.res: flag.rc flag.ih
+	rc -r flag.rc
+
+flag.obj: flag.c flag.ih
+	gcc -c $(CFLAGS_FLAG) flag.c
+
+flagdlg.obj: flagdlg.c flag.ih
+	gcc -c $(CFLAGS_FLAG) flagdlg.c
+
+flag.dll: flag.obj flagdlg.obj flag.res flag.def
+	gcc -s $(CFLAGS_FLAG) flag.obj flagdlg.obj flag.def flag.res
